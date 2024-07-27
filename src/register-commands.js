@@ -1,14 +1,51 @@
 require('dotenv').config();
-const { REST, Routes} = require('discord.js');
+const { REST, Routes, ApplicationCommandOptionType} = require('discord.js');
 
 const commands= [ 
     {
-        name: 'hug',
-        description: 'hugs another user',
+        name : 'add',
+        description: 'Adds two numbers',
+        options: [
+            {
+                name: 'first-number',
+                description: 'The first number',
+                type: ApplicationCommandOptionType.Number,
+                choices: [ 
+                    {
+                        name: 'one',
+                        value: 1,
+                    },
+                    {
+                        name: 'two',
+                        value: 2,
+                    },
+                    {
+                        name: 'three',
+                        value: 3,
+                    }
+                ],
+                required: true,
+            },
+            {
+                name: 'second-number',
+                description: 'The second number',
+                type: ApplicationCommandOptionType.Number,
+                required: true,
+            }
+        ]
     },
     {
-        name: 'anothercommand',
-        description: 'testing to make sure more commands can be used',
+        name: 'hug',
+        description: 'Hug another user',
+        options:[
+            {
+                name: 'target-user',
+                description: 'the user targetted by the hug',
+                type: ApplicationCommandOptionType.User,
+                required: true,
+            },
+
+        ]
     }
 ];
 

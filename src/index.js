@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, IntentsBitField} = require('discord.js');
+const { Client, IntentsBitField, EmbedBuilder, Attachment, AttachmentBuilder} = require('discord.js');
 
 //priviledges
 const tako = new Client({
@@ -31,10 +31,33 @@ tako.on('interactionCreate', (interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
     if(interaction.commandName === 'hug'){
-        interaction.reply("testing, you attempted to hug");
+        const target_user = interaction.options.get('target-user');
+        const origin_user = interaction.user;
+
+        const target_id = '<@'+ target_user.user.id +">";
+        if(origin_user.id ==  target_user.user.id){
+            interaction.reply({
+                content: ' You cannot hug yourself',
+                ephemeral: true,
+            })
+        }
+
+        // interaction.reply(`Hello, ${origin_user} hugged ${target_id}`);
+        // const testingEmbed = new EmbedBuilder().setTitle('hug');
+        const file = new AttachmentBuilder('./assets/hug.gif');
+        const testingEmbed = new EmbedBuilder()
+            .setTitle(`${origin_user.globalName} hugged ${target_user.member.nickname}`)
+            .setImage('attachment://hug.gif');
+        
+        interaction.reply({embeds: [testingEmbed], files: [file]});
+
+        // console.log(origin_user);
     }
-    if(interaction.commandName === 'anothercommand'){
-        interaction.reply("yuh it worked");
+    if(interaction.commandName === 'add'){
+        const num1 = interaction.options.get('first-number').value;
+        const num2 = interaction.options.get('second-number').value;
+
+        interaction.reply(`Testing options command, the sum is ${num1 + num2}`);
     }
 });
 
