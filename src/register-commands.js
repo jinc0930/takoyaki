@@ -46,6 +46,12 @@ const commands= [
             },
 
         ]
+    },
+    {
+        name: 'flip',
+        description: 'flips a coin',
+        // type: ApplicationCommandOptionType.String,
+        required: false,
     }
 ];
 
