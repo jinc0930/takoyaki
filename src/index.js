@@ -51,14 +51,19 @@ tako.on('interactionCreate', (interaction) => {
 
         //getting origin user's guild name
         const originname = interaction.member.displayName;
-        const file = new AttachmentBuilder('./assets/hug.gif');
+        //list all file names
+        let filename_arr = ['hug.gif','hug2.gif','hug3.gif'];
+        //randomly select one to display
+        let filename = filename_arr[Math.floor(Math.random()* filename_arr.length)];
+        let file = new AttachmentBuilder('./assets/'+ filename);
+
         const testingEmbed = new EmbedBuilder()
             .setTitle(`${originname} hugged ${targetname}`)
-            .setImage('attachment://hug.gif');
+            .setImage('attachment://'+ filename);
         
         interaction.reply({embeds: [testingEmbed], files: [file]});
     }
-    
+
     if(interaction.commandName === 'add'){
         const num1 = interaction.options.get('first-number').value;
         const num2 = interaction.options.get('second-number').value;
