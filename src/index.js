@@ -44,15 +44,21 @@ tako.on('interactionCreate', (interaction) => {
 
         // interaction.reply(`Hello, ${origin_user} hugged ${target_id}`);
         // const testingEmbed = new EmbedBuilder().setTitle('hug');
+        var targetname = target_user.user.globalName;
+        if (target_user.member.nickname != null){
+            targetname = target_user.member.nickname;
+        }
+
+        //getting origin user's guild name
+        const originname = interaction.member.displayName;
         const file = new AttachmentBuilder('./assets/hug.gif');
         const testingEmbed = new EmbedBuilder()
-            .setTitle(`${origin_user.globalName} hugged ${target_user.member.nickname}`)
+            .setTitle(`${originname} hugged ${targetname}`)
             .setImage('attachment://hug.gif');
         
         interaction.reply({embeds: [testingEmbed], files: [file]});
-
-        // console.log(origin_user);
     }
+    
     if(interaction.commandName === 'add'){
         const num1 = interaction.options.get('first-number').value;
         const num2 = interaction.options.get('second-number').value;
