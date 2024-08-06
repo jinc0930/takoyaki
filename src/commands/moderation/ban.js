@@ -2,7 +2,7 @@ const{ ApplicationCommandOptionType, PermissionFlagsBits} = require('discord.js'
 
 module.exports = {
     name: 'ban',
-    description: 'ban someone',
+    description: 'ban someone!!!',
     // devOnly: Boolean
     // testOnly: Boolean
     options: [
@@ -19,8 +19,9 @@ module.exports = {
         },
     ],
     permissionsRequired: [PermissionFlagsBits.Administrator],
+    botPermissions: [PermissionFlagsBits.Administrator],
 
-    callBack: (client, interaction) =>{
+    callback: (client, interaction) =>{
         interaction.reply(`ban..`);
     },
 }
