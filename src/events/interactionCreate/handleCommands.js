@@ -2,10 +2,12 @@ const { devs, testServer} = require('../../../config.json');
 const { botPermissions } = require('../../commands/moderation/ban');
 const getLocalCommands = require('../../utils/getLocalCommands');
 
-
 module.exports = async(client, interaction) => {
-    if (!interaction.isChatInputCommand()) return;
 
+    if (!interaction.isChatInputCommand()){
+        return;
+    }
+    
     const localCommands = getLocalCommands();
 
     try {

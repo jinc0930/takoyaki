@@ -6,6 +6,7 @@ const getLocalCommands = require('../../utils/getLocalCommands');
 module.exports = async(client) =>{
     try {
         const localCommands = getLocalCommands();
+        // console.log(localCommands);
         const applicationCommands = await getApplicationCommands(client, testServer);
 
         for (const localCommand of localCommands){
@@ -16,6 +17,7 @@ module.exports = async(client) =>{
             );
 
             if(existingCommand){
+                console.log(`on this command ${name}`);
                 if(localCommand.deleted){
                     await applicationCommands.delete(existingCommand.id);
                     console.log(`Deleted command "${name}.`);
@@ -27,23 +29,24 @@ module.exports = async(client) =>{
                         description,
                         options,
                     });
-
                     console.log(`Editted command "${name}.`)
-                }
-            }
-            else{
-                if (localCommand.deleted){
-                    console.log(`skipping this commanbd "${name}`);
                     continue;
                 }
-
-                await applicationCommands.create({
-                    name,
-                    description,
-                    options,
-                });
-
-                console.log(`Registering command "${name}."`);
+            }
+            else {
+                if (localCommand.deleted){
+                    console.log(`skipping this command "${name}`);
+                    continue;
+                }
+                else {
+                    await applicationCommands.create({
+                        name,
+                        description,
+                        options,
+                    });
+    
+                    console.log(`Registering command "${name}."`);
+                }
             }
         }
     } catch (error) {
