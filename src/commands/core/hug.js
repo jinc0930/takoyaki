@@ -42,12 +42,14 @@ module.exports = {
             // console.log(target_user);
             // console.log(targetname);
 
+            //data base stuff
             let info = {originuser: parseInt(origin_user.id), targetuser: parseInt(target.user.id), category: "hug", value:1};
-            
+            //create/insert
             const insert = db.prepare(`INSERT INTO interaction (originuser, targetuser, category, value) 
                                         VALUES (@originuser, @targetuser, @category, @value)
                                         ON CONFLICT(originuser, targetuser, category) DO UPDATE SET value = value + 1`).run(info);
             
+            //retrieve value(number of times hugs occured from the origin to the target user) for the display message below
             delete info.value;
             var num = (db.prepare(`SELECT value FROM interaction 
                                     WHERE originuser = @originuser 
@@ -61,7 +63,8 @@ module.exports = {
             //randomly select one to display
             var filename = filename_arr[Math.floor(Math.random()* filename_arr.length)];
             let file = new AttachmentBuilder('./assets/'+ filename);
-
+            
+            //create embed for message
             const testingEmbed = new EmbedBuilder()
                 .setTitle(`${originname} hugged ${targetname}`)
                 .setDescription(`${originname} has hugged ${targetname} for a total of ${num.value} times!`)
