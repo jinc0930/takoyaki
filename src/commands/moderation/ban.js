@@ -46,6 +46,5 @@ module.exports = {
     ],
     permissionsRequired: [PermissionFlagsBits.BanMembers],
     botPermissions: [PermissionFlagsBits.BanMembers],
-
     
 }

@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType, AttachmentBuilder, EmbedBuilder } = require('discord.js');
-
+const { db } = require(`../../../utils/database_test.js`);
 
 module.exports = {
     name: 'hug',
@@ -42,6 +42,18 @@ module.exports = {
             // console.log(target_user);
             // console.log(targetname);
 
+            let info = {originuser: parseInt(origin_user.id), targetuser: parseInt(target.user.id), category: "hug", value:1};
+            
+            const insert = db.prepare(`INSERT INTO interaction (originuser, targetuser, category, value) 
+                                        VALUES (@originuser, @targetuser, @category, @value)
+                                        ON CONFLICT(originuser, targetuser, category) DO UPDATE SET value = value + 1`).run(info);
+            
+            delete info.value;
+            var num = (db.prepare(`SELECT value FROM interaction 
+                                    WHERE originuser = @originuser 
+                                    AND targetuser = @targetuser
+                                    AND category = @category `).get(info));
+
             //getting origin user's guild name
             const originname = interaction.member.displayName;
             //list all file names
@@ -52,6 +64,7 @@ module.exports = {
 
             const testingEmbed = new EmbedBuilder()
                 .setTitle(`${originname} hugged ${targetname}`)
+                .setDescription(`${originname} has hugged ${targetname} for a total of ${num.value} times!`)
                 .setImage('attachment://'+ filename);
             
             interaction.reply({embeds: [testingEmbed], files: [file]});
