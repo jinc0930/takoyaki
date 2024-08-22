@@ -32,10 +32,10 @@ for (const fileName of migrationFiles) {
 
   console.log(`Applying migration: ${fileName}`);
   const migration = require(path.join(migrationsPath, fileName));
-  const stmt1 = db.prepare(migration.up);
+  // const stmt1 = db.exec(migration.up);
   const stmt2 = db.prepare("INSERT INTO migrations (version) VALUES (?)");
   db.transaction(() => {
-    stmt1.run()
+    db.exec(migration.up);
     stmt2.run(version);
   })();
 }

@@ -10,6 +10,7 @@ module.exports = {
      */
     callback: async (client, interaction) =>{
         const target_userid = interaction.options.get('target-user').value;
+        // console.log(target_userid);
         const reason = interaction.options.get('reason')?.value || "no reason provided" ;
 
         await interaction.deferReply();
@@ -22,9 +23,43 @@ module.exports = {
         }
 
         if(target_user.id === interaction.guild.ownerId) {
-            await interaction.editReply("You can't ban that user");
+            await interaction.editReply("You can't ban that user because they are the owner");
             return;
         }
+
+        const targetUserRolePosition = target_user.roles.highest.position;
+        const requestUserRolePosition = interaction.member.roles.highest.position;
+        const botRolePosition = interaction.guild.members.me.roles.highest.position;
+
+        //if request comes from the owner
+        if (interaction.member.id === interaction.guild.ownerId) {
+            try {
+                await target_user.ban( {reason});
+                await interaction.editReply(`User ${target_user} was banned\n Reason: ${reason} `);
+            } catch (error) {
+                console.log(`There was an error when banning: ${error}`);  
+            }
+            return;
+        }
+
+        if (targetUserRolePosition >= requestUserRolePosition){
+            await interaction.editReply("You can't ban that user because they have the same/higher role than you.");
+            return;
+        }
+
+        if(targetUserRolePosition >= botRolePosition){
+            await interaction.editReply("I can't ban that user because they have the same/higher role than me.");
+            return;
+        }
+
+        // ban the user
+        try {
+            await target_user.ban( {reason});
+            await interaction.editReply(`User ${target_user} was banned\n Reason: ${reason} `);
+        } catch (error) {
+            console.log(`There was an error when banning: ${error}`);  
+        }
+
     },
 
     name: 'ban',
@@ -46,5 +81,5 @@ module.exports = {
     ],
     permissionsRequired: [PermissionFlagsBits.BanMembers],
     botPermissions: [PermissionFlagsBits.BanMembers],
-    
+
 }

@@ -53,7 +53,7 @@ module.exports = async(client, interaction) => {
             for (const permission of commandObject.botPermissions){
                const bot  = interaction.guild.members.me;
 
-                if(!botPermissions.has(permission)){
+                if(!bot.permissions.has(permission)){
                     interaction.reply({
                         content: "Bot does not have enough permissions",
                         ephemeral: true,
