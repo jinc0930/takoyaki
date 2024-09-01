@@ -20,7 +20,7 @@ module.exports = {
   /**
    * @param {import("discord.js").ChatInputCommandInteraction} interaction
    */
-  callback: async (interaction) => {
+  callback: async (client, interaction) => {
     await interaction.deferReply();
     const text = interaction.options.get("text");
     const avatar = interaction.user.displayAvatarURL({ options: "png" });
