@@ -29,8 +29,7 @@ function getLines(ctx, text, maxWidth, maxLines = Infinity) {
  * @param {string} text
  */
 function removeMentions(text) {
-  const r = / ?<@.?[0-9]*?>/g;
-  return text.replace(r, "");
+  return text.replace(/\s*<@.?[0-9]*?>\s*/g, " ").trim();
 }
 
 /**
