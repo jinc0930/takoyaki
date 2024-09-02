@@ -26,6 +26,13 @@ function getLines(ctx, text, maxWidth, maxLines = Infinity) {
 }
 
 /**
+ * @param {string} text
+ */
+function removeMentions(text) {
+  return text.replace(/\s*<@.?[0-9]*?>\s*/g, " ").trim();
+}
+
+/**
  * changeMyMind
  * @param {string} avatar
  * @param {string} text
@@ -34,6 +41,7 @@ function getLines(ctx, text, maxWidth, maxLines = Infinity) {
  * await require("fs/promises").writeFile("./out.png", img);
  */
 async function changeMyMind(avatar, text) {
+  text = removeMentions(text);
   const width = 482,
     height = 361;
   const canvas = Canvas.createCanvas(width, height);
