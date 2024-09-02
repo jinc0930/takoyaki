@@ -20,9 +20,10 @@ module.exports = {
   /**
    * @param {import("discord.js").ChatInputCommandInteraction} interaction
    */
-  callback: async (interaction) => {
+  callback: async (client, interaction) => {
     await interaction.deferReply();
-    const text = interaction.options.get("text");
+    let text = interaction.options.get("text").value;
+    
     const avatar = interaction.user.displayAvatarURL({ options: "png" });
     const img = await changeMyMind(avatar, text);
     const file = new AttachmentBuilder(img, { name: "change_my_mind.png" });
