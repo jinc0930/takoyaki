@@ -1,5 +1,5 @@
 const { devs, testServer} = require('../../../config.json');
-const { botPermissions } = require('../../commands/moderation/ban');
+const { botPermissions } = require('../../commands/utilities/ban');
 const getLocalCommands = require('../../utils/getLocalCommands');
 
 module.exports = async(client, interaction) => {

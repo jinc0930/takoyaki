@@ -11,7 +11,7 @@
   "description": "",
   "dependencies": {
     "@napi-rs/canvas": "^0.1.54",
-    "better-sqlite3": "^11.1.2",
+    "better-sqlite3": "^11.10.0",
     "discord.js": "^14.15.3",
     "dotenv": "^16.6.1",
     "mongoose": "^8.5.2",
